@@ -62,6 +62,8 @@ inoremap { {}<ESC>i
 inoremap < <><ESC>i
 inoremap " ""<ESC>i
 
+""自动打NERDtree文件管理。
+
 """""""""""""""""""""处理文本中显示乱码"""""""""""""""""""
 set encoding=utf-8 
 set fileencodings=utf-8,chinese,latin-1 
@@ -114,8 +116,8 @@ Plugin 'git://git.wincent.com/command-t.git'
 " ...
 
 filetype plugin indent on     " required
-"""""以下每个Bundle代表一个插件"""""
 
+"""""以下每个Bundle代表一个插件"""""
 Bundle 'Valloric/ListToggle'
 
 "The-NERD-tree:目录文件导航
@@ -216,6 +218,8 @@ let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 "定义存放代码片段的文件夹 .vim/snippets下，使用自定义和默认的，将会的到全局，有冲突的会提示
 let g:UltiSnipsSnippetDirectories=["snippets", "bundle/ultisnips/UltiSnips"]
+""定义Ctags快捷键F12
+map <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
 """"快速注释
 Bundle 'scrooloose/nerdcommenter'
@@ -258,6 +262,11 @@ map <leader>td <Plug>TaskList
 Bundle 'Yggdroot/indentLine'
 Bundle 'c.vim'
 
+""""配置winmanager
+Bundle 'winmanager'
+""定义快捷键
+nmap <silent> <F8> :WMToggle<cr>
+
 " 主题 molokai
 Bundle 'tomasr/molokai'
 let g:molokai_original = 1
@@ -282,4 +291,22 @@ let g:ycm_collect_identifiers_from_tag_files = 1
 
 let g:ycm_show_diagnostics_ui = 0
 """"""为了兼容Systastic需要此项。。
+
+""""利用winmanager配置默认布局
+let g:miniBufExplMapWindowNavVim = 1
+let g:miniBufExplMapWindowNavArrows = 1
+let g:miniBufExplMapCTabSwitchBufs = 1
+let g:miniBufExplModSelTarget = 1
+let g:miniBufExplMoreThanOne=0
+
+let g:NERDTree_title="[NERDTree]"
+let g:winManagerWindowLayout="NERDTree|Tagbar"
+
+function! NERDTree_Start()
+    exec 'NERDTree'
+endfunction
+
+function! NERDTree_IsValid()
+    return 1
+endfunction
 
