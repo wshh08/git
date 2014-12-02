@@ -7,4 +7,5 @@ main()
 
     perror("execl failed to run ls"); //错误处理。
     exit(1);
-}
+    printf("fuck?");
+    }
