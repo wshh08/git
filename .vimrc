@@ -1,6 +1,6 @@
 syntax enable
 syntax on
-"colorscheme morning 
+"colorscheme morning
 
 filetype on "检测文件的类型
 filetype plugin on
@@ -34,7 +34,7 @@ set shiftwidth=4
 set tabstop=4
 
 set background=dark "设置背景色
-"colorscheme torte 
+"colorscheme torte
 "colo<torte>
 
 set history=400  " vim记住的历史操作的数量，默认的是20
@@ -53,7 +53,7 @@ set incsearch
 set noswf   " 去掉烦人的交换文件
 " 去掉烦人的编辑提示
 set nobackup
-set writebackup
+""set writebackup
 
 ""括号自动补全
 inoremap ( ()<ESC>i
@@ -65,17 +65,17 @@ inoremap " ""<ESC>i
 ""自动打NERDtree文件管理。
 
 """""""""""""""""""""处理文本中显示乱码"""""""""""""""""""
-set encoding=utf-8 
-set fileencodings=utf-8,chinese,latin-1 
-if has("win32") 
-    set fileencoding=chinese 
-else 
-    set fileencoding=utf-8 
-endif 
-"处理菜单及右键菜单乱码 
-"source $VIMRUNTIME/delmenu.vim 
-"source $VIMRUNTIME/menu.vim 
-""处理consle输出乱码 
+set encoding=utf-8
+set fileencodings=utf-8,chinese,latin-1
+if has("win32")
+    set fileencoding=chinese
+else
+    set fileencoding=utf-8
+endif
+"处理菜单及右键菜单乱码
+"source $VIMRUNTIME/delmenu.vim
+"source $VIMRUNTIME/menu.vim
+""处理consle输出乱码
 language messages zh_CN.utf-8
 
 """""""""""""""""""""采用windows里的复制粘贴等命令,
@@ -132,23 +132,27 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 
 "标签导航，纬度和taglist不同
 Bundle 'majutsushi/tagbar'
-nmap <leader>tb :TagbarToggle<CR>  " \tb 打开tagbar窗口
+nmap <silent> <F4> :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
+let g:tagbar_width = 25
+let g:tagbar_compact = 1
+"隐藏最上方的帮助提示
+let g:tagbar_updateonsave_maxlines = 1
+"文件保存时自动更新tagbar
 
 """"多文档编辑插件minibufexpl
 Bundle 'fholgado/minibufexpl.vim'
 " 多文件切换，也可使用鼠标双击相应文件名进行切换
-let g:miniBufExplMapWindowNavVim    = 1
-let g:miniBufExplMapWindowNavArrows = 1
-let g:miniBufExplMapCTabSwitchBufs  = 1
-let g:miniBufExplModSelTarget       = 1
+"let g:miniBufExplMapWindowNavVim    = 1
+"let g:miniBufExplMapWindowNavArrows = 1
+"let g:miniBufExplMapCTabSwitchBufs  = 1
+"let g:miniBufExplModSelTarget       = 1
 "解决FileExplorer窗口变小问题
 let g:miniBufExplForceSyntaxEnable = 1
 let g:miniBufExplorerMoreThanOne=2
 let g:miniBufExplCycleArround=1
-" buffer 切换快捷键，默认方向键左右可以切换buffer
-map <C-Tab> :MBEbn<cr>
-map <C-S-Tab> :MBEbp<cr>
+"buffer 切换快捷键，默认方向键左右可以切换buffer
+
 
 "for file search ctrlp, 文件搜索
 Bundle 'kien/ctrlp.vim'
@@ -244,9 +248,9 @@ let g:syntastic_error_symbol = '✗'	"set error or warning signs
 let g:syntastic_warning_symbol = '⚠'
 let g:syntastic_check_on_open=1
 let g:syntastic_enable_highlighting = 0
-"let g:syntastic_python_checker="flake8,pyflakes,pep8,pylint"
-"let g:syntastic_python_checkers=['pyflakes']
-"highlight SyntasticErrorSign guifg=white guibg=black
+let g:syntastic_python_checker='flake8,pyflakes,pep8,pylint'
+let g:syntastic_python_checkers=['flake8']
+highlight SyntasticErrorSign guifg=white guibg=black
 
 let g:syntastic_cpp_include_dirs = ['/usr/include/']
 let g:syntastic_cpp_remove_include_errors = 1
@@ -261,6 +265,15 @@ map <leader>td <Plug>TaskList
 
 Bundle 'Yggdroot/indentLine'
 Bundle 'c.vim'
+Bundle 'mhinz/vim-startify'
+Bundle 'airblade/vim-gitgutter'
+Bundle 'hynek/vim-python-pep8-indent'
+
+Bundle 'nvie/vim-flake8'
+" 禁止PyFlakes使用QuickFix，这样在按下<F7>时会调用flake8，而有对于代码编辑时的错误仍能得到有效的提示
+let g:pyflakes_use_quickfix = 0
+" 如有需要，可设置忽略部分错误
+let g:flake8_ignore="E501"
 
 """"配置winmanager
 Bundle 'winmanager'
@@ -280,7 +293,7 @@ let mapleader = ","
 """""这个leader就映射为逗号“，”
 
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py'   "配置默认的ycm_extra_conf.py
-nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR> 
+nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 """""按,jd 会跳转到定义
 
 let g:ycm_confirm_extra_conf=0
@@ -300,7 +313,7 @@ let g:miniBufExplModSelTarget = 1
 let g:miniBufExplMoreThanOne=0
 
 let g:NERDTree_title="[NERDTree]"
-let g:winManagerWindowLayout="NERDTree|Tagbar"
+let g:winManagerWindowLayout="NERDTree"
 
 function! NERDTree_Start()
     exec 'NERDTree'
@@ -310,3 +323,42 @@ function! NERDTree_IsValid()
     return 1
 endfunction
 
+""""离开insert时将输入法切为英文, 进入时若光标下字符是中文则切输入法(仅适用于fcitx)
+func Fcitx_enter()
+    if (getline('.')[col('.') - 1] >= "\x80" || getline('.')[col('.') - 2] >= "\x80")
+        call system("fcitx-remote -o")
+    endif
+endfun
+autocmd InsertLeave * call system("fcitx-remote -c")
+autocmd InsertEnter * call Fcitx_enter()
+
+""""删除行末尾空格
+func DeleteTrailingWhiteSpace()
+     normal mZ
+     %s/\s\+$//e
+     normal `Z
+endfunc
+au BufWrite * if &ft != 'mkd' | call DeleteTrailingWhiteSpace() | endif
+
+func DiffWithSaved()
+     let ft=&filetype
+     diffthis
+     vnew | r # | normal! 1Gdd
+     diffthis
+     exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . ft
+endfunc
+com DiffSaved call DiffWithSaved()
+nnoremap <Leader>df :call DiffWithSaved()<CR>
+
+""""Python自动补全插件pydiction
+Bundle 'git://github.com/rkulla/pydiction.git'
+
+"pydiction 1.2 python auto complete
+filetype plugin on
+""""将complete-dict文件放到你自己的某个路径下，后面的配置会用到这个文件，这个文件就是记录所有的python关键词
+let g:pydiction_location = '~/.vim/bundle/pydiction/complete-dict'
+"defalut g:pydiction_menu_height == 15
+"let g:pydiction_menu_height = 20
+
+Bundle 'Shougo/vimshell.vim'
+Bundle 'Shougo/vimproc.vim'
