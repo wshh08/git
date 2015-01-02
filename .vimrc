@@ -24,6 +24,7 @@ set guioptions-=T   "在编辑过程中，在右下角显示光标位置的状�
 set foldenable      " 开始折叠
 set wildmenu        " 自动补全命令时候使用菜单式匹配列表
 set hlsearch        " 输入字符串就显示匹配点
+set fdm=indent
 
 ""设置备份相关
 if has("vms")
@@ -60,6 +61,8 @@ set incsearch
 set noswf   " 去掉烦人的交换文件
 " 去掉烦人的编辑提示
 ""set writebackup
+
+let autosave=10   " 设置自动保存10s
 
 ""括号自动补全
 inoremap ( ()<ESC>i
@@ -280,7 +283,7 @@ Bundle 'nvie/vim-flake8'
 " 禁止PyFlakes使用QuickFix，这样在按下<F7>时会调用flake8，而有对于代码编辑时的错误仍能得到有效的提示
 let g:pyflakes_use_quickfix = 0
 " 如有需要，可设置忽略部分错误
-let g:flake8_ignore="E501"
+" let g:flake8_ignore="E501"
 
 """"配置winmanager
 Bundle 'winmanager'
@@ -321,6 +324,14 @@ let g:miniBufExplMoreThanOne=0
 
 let g:NERDTree_title="[NERDTree]"
 let g:winManagerWindowLayout="NERDTree"
+
+""let g:javascript_conceal_function   = "ƒ"
+""let g:javascript_conceal_null       = "ø"
+""let g:javascript_conceal_this       = "@"
+""let g:javascript_conceal_return     = "⇚"
+""let g:javascript_conceal_undefined  = "¿"
+""let g:javascript_conceal_NaN        = "ℕ"
+""let g:javascript_conceal_prototype  = "¶"
 
 function! NERDTree_Start()
     exec 'NERDTree'
@@ -371,7 +382,13 @@ let g:pydiction_location = '~/.vim/bundle/pydiction/complete-dict'
 ""Bundle 'Shougo/vimproc.vim'
 Bundle 'python_fold'
 Bundle 'dbext.vim'
+Bundle 'Python.vim'
+Bundle 'emmet.vim'
+Bundle 'visincr'
+""Bundle 'javascript.vim'
 ""Bundle 'Solarized'
 ""Bundle 'ervandew/supertab'
 ""Bundle 'godlygeek/csapprox'
-
+Bundle "pangloss/vim-javascript"
+Bundle 'othree/html5.vim'
+Bundle 'itspriddle/vim-jquery'
