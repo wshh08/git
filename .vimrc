@@ -1,12 +1,15 @@
 syntax enable
 syntax on
-"colorscheme solarized
+    colorscheme desert
 
 filetype on "检测文件的类型
 filetype plugin on
 filetype plugin indent on
 
+""colorscheme defalut
+
 set nocompatible "不要vim模仿vi模式，建议设置，否则会有很多不兼容的问题
+set laststatus=2
 
 set nu  " 显示行号
 set sm
@@ -42,7 +45,6 @@ set shiftwidth=4
 set tabstop=4
 
 "set background=light"设置背景色
-"colorscheme defalut
 "colo<torte>
 
 set history=400  " vim记住的历史操作的数量，默认的是20
@@ -163,20 +165,28 @@ let g:miniBufExplorerMoreThanOne=2
 let g:miniBufExplCycleArround=1
 "buffer 切换快捷键，默认方向键左右可以切换buffer
 
-
 "for file search ctrlp, 文件搜索
 Bundle 'kien/ctrlp.vim'
 " 打开ctrlp搜索
-let g:ctrlp_map = '<leader>ff'
+let g:ctrlp_map = ',,'
 let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+""let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll|log|jpg|png|jpeg)$',
+  \ }
+let g:ctrlp_user_command = 'find %s -type f'
+
 " 相当于mru功能，show recently opened files
 map <leader>fp :CtrlPMRU<CR>
-"set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux"
-let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
-    \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz)$',
-    \ }
-"\ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
+""set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux"
+""let g:ctrlp_custom_ignore = {
+""   \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
+""    \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz)$',
+""    \ }
+""\ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
 let g:ctrlp_working_path_mode=0
 let g:ctrlp_match_window_bottom=1
 let g:ctrlp_max_height=15
@@ -188,6 +198,7 @@ Bundle 'Lokaltog/vim-powerline'
 "if want to use fancy,need to add font patch -> git clone git://gist.github.com/1630581.git ~/.fonts/ttf-dejavu-powerline
 "let g:Powerline_symbols = 'fancy'
 let g:Powerline_symbols = 'unicode'
+""let g:Powerline_colorscheme = 'skwp'
 
 """"括号显示增强 vimrc中配置如下：""""
 Bundle 'kien/rainbow_parentheses.vim'
@@ -213,6 +224,10 @@ let g:rbpt_max = 40
 let g:rbpt_loadcmd_toggle = 0
 
 """可视化的方式能将相同缩进的代码关联起来。 显可视化缩进,示对齐线。 vimrc中配置如下：
+
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 
 Bundle 'nathanaelkane/vim-indent-guides'
 let g:indent_guides_enable_on_vim_startup = 0  " 默认关闭
@@ -254,7 +269,15 @@ nmap <leader>bn :Tab /
 
 """"Syntastic语法检查配置
 Bundle "scrooloose/syntastic"
-let g:syntastic_error_symbol = '✗'	"set error or warning signs
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 0
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_wq = 0
+
+let g:syntastic_error_symbol = '☣'	"set error or warning signs
 let g:syntastic_warning_symbol = '⚠'
 let g:syntastic_check_on_open=1
 let g:syntastic_enable_highlighting = 0
@@ -268,6 +291,15 @@ let g:syntastic_cpp_check_header = 1
 let g:syntastic_cpp_compiler ='clang++'
 let g:syntastic_cpp_compiler_options = '-std=c++11 -stdlib=libstdc++'
 let g:syntastic_enable_balloons = 1	"whether to show balloons
+
+"" Choose a Javascript syntax checker
+let g:syntastic_javascript_syntax_checker=["jshint"]
+""let g:syntastic_javascript_jshint_args='--config /home/wshh08/jshintrc.json'
+""let g:syntastic_javascript_jshint_exec='/home/wshh08/bin/jshint'
+""let g:syntastic_javascript_jshint_conf="~/jshintrc.json"
+
+highlight StatusLine guifg=SlateBlue guibg=Yellow
+highlight StatusLineNC guifg=Gray guibg=White
 
 """"快速跳转到TODO列表
 Bundle 'vim-scripts/TaskList.vim'
@@ -292,8 +324,10 @@ nmap <silent> <F8> :WMToggle<cr>
 
 " 主题 molokai
 Bundle 'tomasr/molokai'
-let g:molokai_original = 1
-" 配色方案
+""    colorscheme molokai
+""    let g:molokai_original = 1
+""    let g:rehash256 = 1
+""配色方案
 set background=light
 set t_Co=256
 
@@ -387,8 +421,21 @@ Bundle 'emmet.vim'
 Bundle 'visincr'
 ""Bundle 'javascript.vim'
 ""Bundle 'Solarized'
+""colorscheme shine
+ ""let g:solarized_termtrans = 1
+ ""let g:solarized_termcolors = 256
+ ""let g:solarized_contrast = "high"
+ ""let g:solarized_visibility = "high"
+
 ""Bundle 'ervandew/supertab'
 ""Bundle 'godlygeek/csapprox'
 Bundle "pangloss/vim-javascript"
 Bundle 'othree/html5.vim'
 Bundle 'itspriddle/vim-jquery'
+Bundle 'vim-scripts/matchit.zip'
+Bundle 'colorizer'
+Bundle 'JavaScript-syntax'
+Bundle 'Better-Javascript-Indentation'
+Bundle 'jQuery'
+Bundle 'easygrep'
+
