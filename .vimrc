@@ -1,3 +1,4 @@
+autocmd!
 syntax enable
 syntax on
     colorscheme desert
@@ -29,7 +30,7 @@ set hlsearch        " 输入字符串就显示匹配点
 set autochdir
 
 set foldenable      " 开始折叠
-set fdm=syntax
+set fdm=indent
 set foldlevel=0
 nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc':'zo')<CR>
 nmap <C-f> :confirm bdelete<CR>
@@ -480,11 +481,10 @@ fu! RestoreSess()
     exec 'b1'
   endif
 ""endif
-syntax on
 ""RainbowToggle
 endfunction
 
-autocmd VimLeave * call SaveSess()
+autocmd VimLeave,BufLeave * call SaveSess()
 autocmd VimEnter * call RestoreSess()
 
 ""fu! SaveSess()
@@ -565,6 +565,33 @@ let g:rainbow_conf = {
     \       'css': 0,
     \   }
     \}
-let g:rainbow_active = 0 "0 if you want to enable it later via :RainbowToggle
+let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
 
 nmap <leader><space> :RainbowToggle<cr>
+nnoremap <leader>n :write<cr>:bn<cr>
+nnoremap <leader>m :write<cr>:bp<cr>
+nnoremap <leader>d :write<cr>:bd<cr>
+nnoremap <leader>1 :write<cr>:b1<cr>
+nnoremap <leader>2 :write<cr>:b2<cr>
+nnoremap <leader>3 :write<cr>:b3<cr>
+nnoremap <leader>4 :write<cr>:b4<cr>
+nnoremap <leader>5 :write<cr>:b5<cr>
+nnoremap <leader>6 :write<cr>:b6<cr>
+nnoremap <leader>7 :write<cr>:b7<cr>
+nnoremap <leader>8 :write<cr>:b8<cr>
+nnoremap <leader>9 :write<cr>:b9<cr>
+nnoremap <leader>0 :write<cr>:b0<cr>
+
+set undofile
+let $VIMFILES = $HOME.'/vim'
+set undodir=$VIMFILES/\_undodir
+set undolevels=1000
+
+inoremap jk <esc>:write<cr>
+noremap <C-Up> <C-w><Up>
+noremap <C-Down> <C-w><Down>
+noremap <C-Left> <C-w><Left>
+noremap <C-Right> <C-w><Right>
+nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
+nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
+
