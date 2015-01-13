@@ -177,7 +177,8 @@ let g:netrw_home='~/bak'
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primar")
 let NERDChristmasTree = 1
 let NERDTreeChDirMode  = 1
-
+let NERDTreeQuitOnOpen = 1
+let NERDTreeMinimalUI = 1
 "标签导航，纬度和taglist不同
 Bundle 'majutsushi/tagbar'
 nmap <silent> <F4> :TagbarToggle<CR>
@@ -187,21 +188,6 @@ let g:tagbar_compact = 1
 "隐藏最上方的帮助提示
 let g:tagbar_updateonsave_maxlines = 1
 "文件保存时自动更新tagbar
-
-""""多文档编辑插件minibufexpl
-Bundle 'fholgado/minibufexpl.vim'
-" 多文件切换，也可使用鼠标双击相应文件名进行切换
-"let g:miniBufExplMapWindowNavVim    = 1
-"let g:miniBufExplMapWindowNavArrows = 1
-"let g:miniBufExplMapCTabSwitchBufs  = 1
-"let g:miniBufExplModSelTarget       = 1
-"解决FileExplorer窗口变小问题
-let g:miniBufExplForceSyntaxEnable = 1
-let g:miniBufExplorerMoreThanOne=2
-let g:miniBufExplCycleArround=1
-"buffer 切换快捷键
-""map <Leader>1 :MBEbn<cr>
-""map <Leader>2 :MBEbp<cr>
 
 "for file search ctrlp, 文件搜索
 Bundle 'kien/ctrlp.vim'
@@ -258,7 +244,8 @@ Bundle 'bronson/vim-trailing-whitespace'
 "定义存放代码片段的文件夹 .vim/snippets下，使用自定义和默认的，将会的到全局，有冲突的会提示
 ""let g:UltiSnipsSnippetDirectories=["snippets", "bundle/ultisnips/UltiSnips"]
 ""定义Ctags快捷键F12
-map <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+noremap <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+""map <C-F12> :!ctags -R<CR>
 
 """"快速注释
 ""Bundle 'scrooloose/nerdcommenter'
@@ -279,6 +266,7 @@ Bundle 'godlygeek/tabular'
 
 """"Syntastic语法检查配置
 Bundle "scrooloose/syntastic"
+set statusline=""
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -428,16 +416,27 @@ let g:pydiction_location = '~/.vim/bundle/pydiction/complete-dict'
 ""Bundle 'Shougo/vimproc.vim'
 Bundle 'python_fold'
 Bundle 'dbext.vim'
-Bundle 'Python.vim'
+""Bundle 'Python.vim'
+Bundle 'klen/python-mode'
+  let g:pymode_options_max_line_length = 150
+  let g:pymode_options_colorcolumn = 0
+  let g:pymode_quickfix_minheight = 2
+  let g:pymode_quickfix_maxheight = 4
+  let g:pymode_indent = 1
+  let g:pymode_folding = 1
+
 Bundle 'emmet.vim'
 Bundle 'visincr'
 
 Bundle 'othree/html5.vim'
+au BufNewFile,BufRead *.html set filetype=html
 Bundle 'vim-scripts/matchit.zip'
 ""Bundle 'JavaScript-syntax'
 Bundle 'jelera/vim-javascript-syntax'
 ""  au FileType javascript call JavaScriptFold()
-Bundle 'jQuery'
+""Bundle 'jQuery'
+""au BufNewFile,BufRead *.js set filetype=jquery
+
 Bundle 'itspriddle/vim-jquery'
 Bundle "pangloss/vim-javascript"
   set regexpengine=1
@@ -479,6 +478,7 @@ fu! RestoreSess()
       endif
     endfor
     exec 'b1'
+        exec 'syntax on'
   endif
 ""endif
 ""RainbowToggle
@@ -526,12 +526,11 @@ autocmd VimEnter * call RestoreSess()
 ""  inoremap <c-x><c-k> <c-x><c-k>
 
 ""Bundle 'javascript.vim'
-""Bundle 'Solarized'
-""colorscheme shine
-""let g:solarized_termtrans = 1
-""let g:solarized_termcolors = 256
-""let g:solarized_contrast = "high"
-""let g:solarized_visibility = "high"
+Bundle 'Solarized'
+let g:solarized_termtrans = 1
+let g:solarized_termcolors = 256
+let g:solarized_contrast = "high"
+let g:solarized_visibility = "high"
 ""Bundle 'ervandew/supertab'
 ""Bundle 'godlygeek/csapprox'
 "" Bundle 'colorizer'
@@ -568,30 +567,74 @@ let g:rainbow_conf = {
 let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
 
 nmap <leader><space> :RainbowToggle<cr>
-nnoremap <leader>n :write<cr>:bn<cr>
-nnoremap <leader>m :write<cr>:bp<cr>
-nnoremap <leader>d :write<cr>:bd<cr>
-nnoremap <leader>1 :write<cr>:b1<cr>
-nnoremap <leader>2 :write<cr>:b2<cr>
-nnoremap <leader>3 :write<cr>:b3<cr>
-nnoremap <leader>4 :write<cr>:b4<cr>
-nnoremap <leader>5 :write<cr>:b5<cr>
-nnoremap <leader>6 :write<cr>:b6<cr>
-nnoremap <leader>7 :write<cr>:b7<cr>
-nnoremap <leader>8 :write<cr>:b8<cr>
-nnoremap <leader>9 :write<cr>:b9<cr>
-nnoremap <leader>0 :write<cr>:b0<cr>
+nnoremap <leader>n :bn<cr>
+nnoremap <leader>m :bp<cr>
+nnoremap <leader>d :bd<cr>
+nnoremap <leader>1 :b1<cr>
+nnoremap <leader>2 :b2<cr>
+nnoremap <leader>3 :b3<cr>
+nnoremap <leader>4 :b4<cr>
+nnoremap <leader>5 :b5<cr>
+nnoremap <leader>6 :b6<cr>
+nnoremap <leader>7 :b7<cr>
+nnoremap <leader>8 :b8<cr>
+nnoremap <leader>9 :b9<cr>
+nnoremap <leader>0 :b10<cr>
 
 set undofile
 let $VIMFILES = $HOME.'/vim'
 set undodir=$VIMFILES/\_undodir
 set undolevels=1000
 
-inoremap jk <esc>:write<cr>
+inoremap jk <esc>
+vnoremap jk <esc>
 noremap <C-Up> <C-w><Up>
 noremap <C-Down> <C-w><Down>
 noremap <C-Left> <C-w><Left>
 noremap <C-Right> <C-w><Right>
+nnoremap <leader>cc <C-w>c
 nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
 nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
+noremap <leader>; :normal! mqA;<esc>`q
+noremap <leader>ww :write<cr>
+au BufNewFile,BufRead *.py,*.pyw setf python
+"" au BufNewFile,BufRead * :syntax on
+""YCM用jedi来补全python。
+Bundle "davidhalter/jedi"
+nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
+nnoremap <leader>g :set operatorfunc=<SID>GrepOperator<cr>g@
+vnoremap <leader>g :<c-u>call <SID>GrepOperator(visualmode())<cr>
+
+function! s:GrepOperator(type)
+    let saved_unnamed_register = @@
+
+    if a:type ==# 'v'
+        normal! `<v`>y
+    elseif a:type ==# 'char'
+        normal! `[v`]y
+    else
+        return
+    endif
+
+    silent execute "grep! -R " . shellescape(@@) . " ."
+    copen
+
+    let @@ = saved_unnamed_register
+  endfunction
+
+""""多文档编辑插件minibufexpl
+Bundle 'fholgado/minibufexpl.vim'
+" 多文件切换，也可使用鼠标双击相应文件名进行切换
+"let g:miniBufExplMapWindowNavVim    = 1
+"let g:miniBufExplMapWindowNavArrows = 1
+"let g:miniBufExplMapCTabSwitchBufs  = 1
+"let g:miniBufExplModSelTarget       = 1
+"解决FileExplorer窗口变小问题
+let g:miniBufExplForceSyntaxEnable = 1
+let g:miniBufExplorerMoreThanOne=2
+let g:miniBufExplCycleArround=1
+"buffer 切换快捷键
+""map <Leader>1 :MBEbn<cr>
+""map <Leader>2 :MBEbp<cr>
+set guifont=Monaco\ 13
