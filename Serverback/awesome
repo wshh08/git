@@ -1,0 +1,46 @@
+server {
+	listen		80;
+	root		/srv/awesome/www;
+	access_log	/srv/awesome/log/access_log;
+	error_log	/srv/awesome/log/error_log;
+
+# 处理静态文件
+	location /favicon.ico {
+		root /srv/awesome/www;
+	}
+
+	location ~ ^\/static\/.*$ {
+		root /srv/awesome/www;
+	}
+
+	location / {
+		proxy_pass		http://127.0.0.1:9000;
+		proxy_set_header	X-Real-IP $remote_addr;
+		proxy_set_header	Host $host;
+		proxy_set_header	X-Forwarded-For $proxy_add_x_forwarded_for;
+	}
+
+	location /nginx-status {
+		stub_status on;
+		access_log off;
+	}
+
+	location ^~ /munin-cgi/munin-cgi-graph/ {
+		fastcgi_split_path_info ^(/munin-cgi/munin-cgi-graph)(.*);
+		fastcgi_param PATH_INFO $fastcgi_path_info;
+		fastcgi_pass unix:/var/run/munin/spawn-fcgi-munin-graph.sock;
+		include fastcgi_params;
+	}
+
+	location /munin/static/ {
+		alias /etc/munin/static/;
+	}
+
+	location /munin/ {
+		fastcgi_split_path_info ^(/munin)(.*);
+		fastcgi_param PATH_INFO $fastcgi_path_info;
+		fastcgi_pass unix:/var/run/munin/spawn-fcgi-munin-html.sock;
+		include fastcgi_params;
+	} 
+
+}
